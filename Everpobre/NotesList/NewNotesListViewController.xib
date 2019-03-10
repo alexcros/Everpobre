@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,6 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewNotesListViewController" customModule="Everpobre" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="VGa-mi-qQF" id="Ww5-HA-Idt"/>
+                <outlet property="mapView" destination="Aiw-dE-Det" id="6D7-vB-TsP"/>
+                <outlet property="segmentedControl" destination="FQb-wJ-gEb" id="HYD-Pz-Qic"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="VGa-mi-qQF">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="61" width="375" height="606"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ycj-cn-K5X">
                         <size key="itemSize" width="50" height="50"/>
@@ -34,15 +36,36 @@
                         <outlet property="delegate" destination="-1" id="gW4-q2-oqF"/>
                     </connections>
                 </collectionView>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FQb-wJ-gEb">
+                    <rect key="frame" x="16" y="25" width="343" height="29"/>
+                    <segments>
+                        <segment title="First"/>
+                        <segment title="Second"/>
+                    </segments>
+                    <connections>
+                        <action selector="indexChanged:" destination="-1" eventType="valueChanged" id="4Z6-Lx-pHx"/>
+                    </connections>
+                </segmentedControl>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Aiw-dE-Det">
+                    <rect key="frame" x="0.0" y="61" width="375" height="606"/>
+                </mapView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="VGa-mi-qQF" secondAttribute="trailing" id="FIo-p0-zz5"/>
-                <constraint firstItem="VGa-mi-qQF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="JHj-Ib-na3"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="FQb-wJ-gEb" secondAttribute="trailing" constant="16" id="GLY-KM-P3L"/>
+                <constraint firstItem="VGa-mi-qQF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="41" id="JHj-Ib-na3"/>
+                <constraint firstItem="Aiw-dE-Det" firstAttribute="top" secondItem="FQb-wJ-gEb" secondAttribute="bottom" constant="8" id="JMx-nT-VUG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="VGa-mi-qQF" secondAttribute="bottom" id="NNn-8c-hTE"/>
+                <constraint firstItem="FQb-wJ-gEb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="Qko-z7-MAQ"/>
                 <constraint firstItem="VGa-mi-qQF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Tnh-8d-Xfo"/>
+                <constraint firstItem="Aiw-dE-Det" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dYV-19-zbH"/>
+                <constraint firstItem="Aiw-dE-Det" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="dda-HH-yp4"/>
+                <constraint firstItem="FQb-wJ-gEb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="deu-iz-XkK"/>
+                <constraint firstItem="Aiw-dE-Det" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="dyv-9k-B8H"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="138.40000000000001" y="120.98950524737631"/>
         </view>
     </objects>
 </document>

@@ -8,13 +8,17 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class NewNotesListViewController: UIViewController {
 
-	// MARK: IBOutlet
+	// MARK: IBOutlets
+    
 	@IBOutlet weak var collectionView: UICollectionView!
-
-	// MARK: Properties
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: Properties
 
 	let notebook: Notebook
 	//let managedContext: NSManagedObjectContext
@@ -45,7 +49,9 @@ class NewNotesListViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
+        self.mapView.isHidden = true
+        self.collectionView.isHidden = false
+        print("NewNotesListViewController")
 		title = "Notas"
 		self.view.backgroundColor = .white
 
@@ -129,6 +135,26 @@ class NewNotesListViewController: UIViewController {
 		let navVC = UINavigationController(rootViewController: newNoteVC)
 		self.present(navVC, animated: true, completion: nil)
 	}
+    
+    // MARK: - IBActions
+    
+    @IBAction func indexChanged(_ sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex
+        {
+        case 0:
+            print("First Segment Selected")
+            self.mapView.isHidden = true
+            self.collectionView.isHidden = false
+            //textLabel.text = "First Segment Selected"
+        case 1:
+            print("Second Segment Selected")
+            self.mapView.isHidden = false
+            self.collectionView.isHidden = true
+            //textLabel.text = "Second Segment Selected"
+        default:
+            break
+        }
+    }
 
 }
 
