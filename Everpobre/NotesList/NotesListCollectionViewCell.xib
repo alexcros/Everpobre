@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,20 +12,23 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="NotesListCollectionViewCell" customModule="Everpobre" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+            <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notebook" translatesAutoresizingMaskIntoConstraints="NO" id="o3a-2w-AFf">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Gm-IN-Zhh">
-                        <rect key="frame" x="33.5" y="64.5" width="33.5" height="21"/>
+                        <rect key="frame" x="5" y="10" width="140" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="US5-zm-ux3">
-                        <rect key="frame" x="29" y="109" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="creation date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="US5-zm-ux3">
+                        <rect key="frame" x="0.0" y="45" width="150" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -33,18 +36,28 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="US5-zm-ux3" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="FTy-1J-dIM"/>
-                <constraint firstItem="3Gm-IN-Zhh" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="SZh-Rh-vdP"/>
-                <constraint firstAttribute="bottom" secondItem="US5-zm-ux3" secondAttribute="bottom" constant="20" id="Sfq-Iy-OZO"/>
-                <constraint firstItem="3Gm-IN-Zhh" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="iKL-MG-cjY"/>
+                <constraint firstItem="o3a-2w-AFf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="5JI-xx-Ola"/>
+                <constraint firstItem="US5-zm-ux3" firstAttribute="centerX" secondItem="3Gm-IN-Zhh" secondAttribute="centerX" id="GD0-0b-K9G"/>
+                <constraint firstAttribute="trailing" secondItem="o3a-2w-AFf" secondAttribute="trailing" id="JR8-ug-4uO"/>
+                <constraint firstAttribute="trailing" secondItem="3Gm-IN-Zhh" secondAttribute="trailing" constant="5" id="Lqi-jS-3d0"/>
+                <constraint firstItem="3Gm-IN-Zhh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="My8-Bl-elz"/>
+                <constraint firstItem="US5-zm-ux3" firstAttribute="leading" secondItem="3Gm-IN-Zhh" secondAttribute="leading" constant="-5" id="c6a-w1-CPe"/>
+                <constraint firstItem="US5-zm-ux3" firstAttribute="top" secondItem="3Gm-IN-Zhh" secondAttribute="bottom" constant="14" id="eKR-us-s82"/>
+                <constraint firstItem="o3a-2w-AFf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="hgs-8L-SL9"/>
+                <constraint firstItem="3Gm-IN-Zhh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="lCF-dz-h5q"/>
+                <constraint firstAttribute="bottom" secondItem="o3a-2w-AFf" secondAttribute="bottom" id="lpY-aK-fPk"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="127" height="183"/>
             <connections>
                 <outlet property="creationDateLabel" destination="US5-zm-ux3" id="9U8-hV-gSL"/>
+                <outlet property="imageView" destination="o3a-2w-AFf" id="9gN-kf-qon"/>
                 <outlet property="titleLabel" destination="3Gm-IN-Zhh" id="Rlv-Hc-ukA"/>
             </connections>
-            <point key="canvasLocation" x="24" y="118"/>
+            <point key="canvasLocation" x="24" y="117.84107946026987"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="notebook" width="64" height="64"/>
+    </resources>
 </document>
