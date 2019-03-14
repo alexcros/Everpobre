@@ -6,6 +6,8 @@
 	<string>Test</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Test</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to save into notes</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

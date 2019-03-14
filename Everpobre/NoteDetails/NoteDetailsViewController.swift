@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 // MARK:- NoteDetailsViewControllerProtocol
 
@@ -50,7 +51,8 @@ class NoteDetailsViewController: UIViewController {
 //	let note: Note
 	let managedContext: NSManagedObjectContext
 	let kind: Kind
-
+    lazy var locationManager = CLLocationManager()
+    var location: CLLocationCoordinate2D?
 	weak var delegate: NoteDetailsViewControllerProtocol?
 
 	// MARK: Init
@@ -99,6 +101,8 @@ class NoteDetailsViewController: UIViewController {
 		creationDateLabel.text = "Created: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
 		lastSeenDateLabel.text = "Last seen: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
 		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
+        
+        saveNoteLocation()
 
 		guard let data = kind.note?.image as Data? else {
 			imageView.image = #imageLiteral(resourceName: "120x180.png")
@@ -108,6 +112,18 @@ class NoteDetailsViewController: UIViewController {
 		imageView.image = UIImage(data: data)
 	}
 
+    private func saveNoteLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        guard case .new = kind else { return }
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        }
+    }
+    
 	@objc private func saveNote() {
 
 		func addProperties(to note: Note) -> Note {
@@ -140,6 +156,13 @@ class NoteDetailsViewController: UIViewController {
 				notes.add(note)
 				notebook.notes = notes
 			}
+            
+            if let userLocation = location {
+                let noteLocation = Location(context: managedContext)
+                noteLocation.latitude = userLocation.latitude
+                noteLocation.longitude = userLocation.longitude
+                note.location = noteLocation
+            }
 		}
 
 		do {
@@ -165,6 +188,20 @@ class NoteDetailsViewController: UIViewController {
     private func setUpTextField() {
         tagsTextField.delegate = self
         tagsTextField.inputView = pickerView
+    }
+}
+
+// MARK:- CLLocationManagerDelegate
+
+extension NoteDetailsViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let userLocation = locations.last {
+            location = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("User location error: \(error.localizedDescription)")
     }
 }
 
