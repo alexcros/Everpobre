@@ -10,6 +10,55 @@ import UIKit
 import CoreData
 import MapKit
 
+extension NewNotesListViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            centerMap(at: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude))
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("user's location error: \(error.localizedDescription)")
+    }
+    
+    private func centerMap(at center: CLLocationCoordinate2D) {
+        let regionRadius: CLLocationDistance = 1000
+        let region = MKCoordinateRegion(center: center, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        mapView.setRegion(region, animated: true)
+    }
+}
+
+extension NewNotesListViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? Note else { return nil }
+        
+        let identifier = "note"
+        var view: MKMarkerAnnotationView
+        
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            view.canShowCallout = true
+        }
+        
+        view.markerTintColor = .red
+        view.titleVisibility = .visible
+        view.subtitleVisibility = .adaptive
+
+        return view
+    }
+}
+
+extension Note: MKAnnotation {
+    public var coordinate: CLLocationCoordinate2D {
+        guard let location = self.location else { return kCLLocationCoordinate2DInvalid }
+        return CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+    }
+}
+
 class NewNotesListViewController: UIViewController {
     
 	// MARK: IBOutlets
@@ -23,6 +72,7 @@ class NewNotesListViewController: UIViewController {
 	let notebook: Notebook
 	//let managedContext: NSManagedObjectContext
 	let coreDataStack: CoreDataStack!
+    let locationManager = CLLocationManager()
 
 	var notes: [Note] = [] {
 		didSet {
@@ -64,10 +114,24 @@ class NewNotesListViewController: UIViewController {
 		let exportButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(exportCSV))
 
 		self.navigationItem.rightBarButtonItems = [addButtonItem, exportButtonItem]
+        
+        setupLocationInMapView()
 	}
 
-	// MARK: Helper methods
-
+    // MARK: Helper methods
+    
+    private func setupLocationInMapView() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestLocation()
+        mapView.showsUserLocation = true
+        mapView.userLocation.title = nil
+        mapView.delegate = self
+        
+        mapView.addAnnotations(notes)
+    }
+    
 	@objc private func exportCSV() {
 
 		coreDataStack.storeContainer.performBackgroundTask { [unowned self] context in

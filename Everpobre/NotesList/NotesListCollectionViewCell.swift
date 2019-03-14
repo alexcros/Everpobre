@@ -26,7 +26,7 @@ class NotesListCollectionViewCell: UICollectionViewCell {
 		creationDateLabel.text = (item.creationDate as Date?)?.customStringLabel()
         guard let imageDate = item.image,
         let image = UIImage(data: imageDate as Data) else {
-            imageView.image = UIImage(named: "notebook")
+            imageView.image = UIImage(named: "120x180")
             return
         }
 
