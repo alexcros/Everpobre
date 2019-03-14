@@ -18,20 +18,33 @@ protocol NoteDetailsViewControllerProtocol: class {
 // MARK:- NoteDetailsViewController class
 
 class NoteDetailsViewController: UIViewController {
-
+    
+    enum Tag: String, CaseIterable {
+        case Personal = "Personal"
+        case Todo = "Todo"
+        case Info = "Info"
+        case Otros = "Otros"
+    }
+    
 	enum Kind {
 		case new(notebook: Notebook)
 		case existing(note: Note)
 	}
 
-	// MARK: IBOutlets
+    private var pickerView: UIPickerView = {
+        var picker = UIPickerView()
+        return picker
+    }()
+
+    // MARK: IBOutlets
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var titleTextField: UITextField!
-	@IBOutlet weak var tagsLabel: UILabel!
+	//@IBOutlet weak var tagsLabel: UITextField!
+    @IBOutlet weak var tagsTextField: UITextField!
 	@IBOutlet weak var creationDateLabel: UILabel!
 	@IBOutlet weak var lastSeenDateLabel: UILabel!
 	@IBOutlet weak var descriptionTextView: UITextView!
-
+    
 	// MARK: Parameters
 
 //	let note: Note
@@ -56,7 +69,10 @@ class NoteDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpPickerView()
+        setUpTextField()
 		configure()
+        
     }
 
 	// MARK: IBAction
@@ -79,9 +95,9 @@ class NoteDetailsViewController: UIViewController {
 
 		title = kind.title
 		titleTextField.text = kind.note?.title
-		//tagsLabel.text = note.tags?.joined(separator: ",")
-		creationDateLabel.text = "Creado: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
-		lastSeenDateLabel.text = "Visto: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
+        tagsTextField.text = kind.note?.tags
+		creationDateLabel.text = "Created: \((kind.note?.creationDate as Date?)?.customStringLabel() ?? "ND")"
+		lastSeenDateLabel.text = "Last seen: \((kind.note?.lastSeenDate as Date?)?.customStringLabel() ?? "ND")"
 		descriptionTextView.text = kind.note?.text ?? "Ingrese texto..."
 
 		guard let data = kind.note?.image as Data? else {
@@ -97,6 +113,7 @@ class NoteDetailsViewController: UIViewController {
 		func addProperties(to note: Note) -> Note {
 			note.title = titleTextField.text
 			note.text = descriptionTextView.text
+            note.tags = tagsTextField.text
 
 			let imageData: NSData?
 			if let image = imageView.image,
@@ -139,6 +156,58 @@ class NoteDetailsViewController: UIViewController {
 	@objc private func cancel() {
 		dismiss(animated: true, completion: nil)
 	}
+    
+    private func setUpPickerView() {
+        pickerView.delegate = self
+        pickerView.dataSource = self
+    }
+    
+    private func setUpTextField() {
+        tagsTextField.delegate = self
+        tagsTextField.inputView = pickerView
+    }
+}
+
+// MARK: - UIPickerViewDelegate
+
+extension NoteDetailsViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Tag.allCases[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(row)
+        tagsTextField.text = Tag.allCases[row].rawValue
+    }
+}
+
+// MARK: - UIPickerViewDataSource
+
+extension NoteDetailsViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Tag.allCases.count
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension NoteDetailsViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == self.tagsTextField {
+            // Select the value in the picker from the text in the textField
+            let row = Tag.allCases.firstIndex(where: { (tag) -> Bool in
+                tag.rawValue == self.tagsTextField.text
+            })
+            
+            if let row = row {
+                pickerView.selectRow(row, inComponent: 0, animated: true)
+            }
+        }
+    }
 }
 
 // MARK:- UIImagePickerControllerDelegate & related methods
@@ -226,5 +295,3 @@ private extension NoteDetailsViewController.Kind {
 		}
 	}
 }
-
-

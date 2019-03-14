@@ -14,3 +14,12 @@ import CoreData
 public class Notebook: NSManagedObject {
 
 }
+
+extension Notebook {
+    func exportCSV() -> String {
+        let exportName = self.name ?? "Unnamed"
+        let exportedCreationDate = (creationDate as Date?)?.customStringLabel() ?? "ND"
+        
+        return "\(exportName),\(exportedCreationDate)\n"
+    }
+}

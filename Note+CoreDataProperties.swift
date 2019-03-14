@@ -2,8 +2,8 @@
 //  Note+CoreDataProperties.swift
 //  Everpobre
 //
-//  Created by Charles Moncada on 15/10/18.
-//  Copyright © 2018 Charles Moncada. All rights reserved.
+//  Created by Alexandre on 14/3/19.
+//  Copyright © 2019 Charles Moncada. All rights reserved.
 //
 //
 
@@ -18,10 +18,12 @@ extension Note {
     }
 
     @NSManaged public var creationDate: NSDate?
+    @NSManaged public var image: NSData?
     @NSManaged public var lastSeenDate: NSDate?
     @NSManaged public var text: String?
     @NSManaged public var title: String?
-    @NSManaged public var image: NSData?
+    @NSManaged public var tags: String?
+    @NSManaged public var location: Location?
     @NSManaged public var notebook: Notebook?
 
 }

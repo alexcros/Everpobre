@@ -132,11 +132,67 @@ class NotebookListViewController: UIViewController {
 		}
 
 	}
+    
+    private func shareNotebooks() {
+        coredataStack.storeContainer.performBackgroundTask { [unowned self] context in
+            
+            var results: [Notebook] = []
+            
+            do {
+                results = try self.coredataStack.managedContext.fetch(Notebook.fetchRequest())
+            } catch let error as NSError {
+                print("Error: \(error.localizedDescription)")
+            }
+            
+            let exportPath = NSTemporaryDirectory() + "export.csv"
+            let exportURL = URL(fileURLWithPath: exportPath)
+            FileManager.default.createFile(atPath: exportPath, contents: Data(), attributes: nil)
+            
+            let fileHandle: FileHandle?
+            do {
+                fileHandle = try FileHandle(forWritingTo: exportURL)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                fileHandle = nil
+            }
+            
+            if let fileHandle = fileHandle {
+                for notebook in results {
+                    fileHandle.seekToEndOfFile()
+                    guard let csvData = notebook.exportCSV().data(using: .utf8, allowLossyConversion: false) else { return }
+                    fileHandle.write(csvData)
+                    guard let notesSet = notebook.notes, let notes = Array(notesSet) as? [Note] else { return }
+                    for note in notes {
+                        guard let csvData = note.csv().data(using: .utf8, allowLossyConversion: false) else { return }
+                        fileHandle.write(csvData)
+                    }
+                }
+                
+                fileHandle.closeFile()
+                DispatchQueue.main.async { [weak self] in
+                    self?.shareExportCSV(exportPath)
+                }
+                
+            } else {
+                print("no podemos exportar la data")
+            }
+        }
+    }
+    
+    @IBAction func share(_ sender: UIBarButtonItem) {
+        shareNotebooks()
+    }
+    
+    private func shareExportCSV(_ exportPath: String) {
+        let text = (try? String(contentsOf: URL(fileURLWithPath: exportPath))) ?? "Nothing to export"
+        let activityController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        present(activityController, animated: true)
+    }
 	
 	@IBAction func addNotebook(_ sender: UIBarButtonItem) {
-		let alert = UIAlertController(title: "Nuevo Notebook", message: "Añade un nuevo Notebbok", preferredStyle: .alert)
+		let alert = UIAlertController(title: "Add Notebook", message: "Añade un nuevo Notebbok", preferredStyle: .alert)
 
-		let saveAction = UIAlertAction(title: "Grabar", style: .default) { [unowned self] action in
+		let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned self] action in
 			guard
 				let textField = alert.textFields?.first,
 				let nameToSave = textField.text

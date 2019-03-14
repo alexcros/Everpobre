@@ -11,7 +11,7 @@ import CoreData
 import MapKit
 
 class NewNotesListViewController: UIViewController {
-
+    
 	// MARK: IBOutlets
     
 	@IBOutlet weak var collectionView: UICollectionView!
@@ -136,21 +136,18 @@ class NewNotesListViewController: UIViewController {
 		self.present(navVC, animated: true, completion: nil)
 	}
     
-    // MARK: - IBActions
+    // MARK: - IBAction Segmented Control
     
     @IBAction func indexChanged(_ sender: UISegmentedControl) {
-        switch segmentedControl.selectedSegmentIndex
-        {
+        switch segmentedControl.selectedSegmentIndex {
         case 0:
             print("First Segment Selected")
             self.mapView.isHidden = true
             self.collectionView.isHidden = false
-            //textLabel.text = "First Segment Selected"
         case 1:
             print("Second Segment Selected")
             self.mapView.isHidden = false
             self.collectionView.isHidden = true
-            //textLabel.text = "Second Segment Selected"
         default:
             break
         }

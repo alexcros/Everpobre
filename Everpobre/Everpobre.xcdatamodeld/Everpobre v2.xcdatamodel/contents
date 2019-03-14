@@ -9,6 +9,7 @@
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="lastSeenDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="tags" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="note" inverseEntity="Location" syncable="YES"/>
@@ -20,8 +21,8 @@
         <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Note" inverseName="notebook" inverseEntity="Note" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Note" positionX="-363.234375" positionY="-189.875" width="128" height="150"/>
-        <element name="Notebook" positionX="-566.0859375" positionY="-178.21875" width="130.546875" height="88"/>
         <element name="Location" positionX="-468" positionY="-135" width="128" height="90"/>
+        <element name="Note" positionX="-363.234375" positionY="-189.875" width="128" height="165"/>
+        <element name="Notebook" positionX="-566.0859375" positionY="-178.21875" width="130.546875" height="88"/>
     </elements>
 </model>
